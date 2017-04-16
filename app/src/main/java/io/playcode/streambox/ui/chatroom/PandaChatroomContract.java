@@ -1,6 +1,4 @@
-package io.playcode.streambox.ui.pandastream.chatroom;
-
-import android.text.Spanned;
+package io.playcode.streambox.ui.chatroom;
 
 import java.util.List;
 

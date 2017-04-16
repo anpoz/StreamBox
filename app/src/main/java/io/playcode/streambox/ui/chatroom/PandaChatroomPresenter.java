@@ -1,7 +1,6 @@
-package io.playcode.streambox.ui.pandastream.chatroom;
+package io.playcode.streambox.ui.chatroom;
 
 import android.graphics.Color;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;

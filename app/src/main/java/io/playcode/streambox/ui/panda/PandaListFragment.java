@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.blankj.aloglibrary.ALog;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -63,7 +62,7 @@ public class PandaListFragment extends Fragment implements PandaListContract.Vie
         mPresenter.subscribe();
         mPresenter.requestRefresh();
 
-        View view = inflater.inflate(R.layout.fragment_panda_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_stream_list, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         init();

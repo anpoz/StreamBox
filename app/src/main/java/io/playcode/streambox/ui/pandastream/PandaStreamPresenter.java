@@ -15,8 +15,10 @@ import org.reactivestreams.Subscription;
 import io.playcode.streambox.data.bean.PandaDanmuEntity;
 import io.playcode.streambox.data.bean.PandaStreamDanmuServerEntity;
 import io.playcode.streambox.data.bean.PandaStreamEntity;
+import io.playcode.streambox.data.bean.StreamInfoEntity;
 import io.playcode.streambox.data.source.AppRepository;
 import io.playcode.streambox.event.PandaDanmuEvent;
+import io.playcode.streambox.event.StreamInfoEvent;
 import io.playcode.streambox.util.PandaDanmuUtil;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -77,6 +79,15 @@ public class PandaStreamPresenter implements PandaStreamContract.Presenter {
                     @Override
                     public void onNext(PandaStreamEntity pandaStreamEntity) {
                         address = pandaStreamEntity.getData().getVideoinfo().getAddress();
+                        StreamInfoEntity infoEntity = new StreamInfoEntity();
+                        infoEntity.setLive_id(pandaStreamEntity.getData().getRoominfo().getId());
+                        infoEntity.setLive_img(pandaStreamEntity.getData().getHostinfo().getAvatar());
+                        infoEntity.setLive_nickname(pandaStreamEntity.getData().getHostinfo().getName());
+                        infoEntity.setLive_title(pandaStreamEntity.getData().getRoominfo().getName());
+                        infoEntity.setLive_online(pandaStreamEntity.getData().getRoominfo().getPerson_num());
+                        infoEntity.setPush_time(pandaStreamEntity.getData().getRoominfo().getStart_time());
+                        infoEntity.setLive_type("pandatv");
+                        EventBus.getDefault().postSticky(new StreamInfoEvent(infoEntity));
                         mView.updateStreamAddress(address, pandaStreamEntity.getData().getRoominfo().getName());
                     }
 

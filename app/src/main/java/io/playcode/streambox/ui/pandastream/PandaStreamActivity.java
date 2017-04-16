@@ -21,8 +21,8 @@ import butterknife.ButterKnife;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import io.playcode.streambox.R;
-import io.playcode.streambox.ui.pandastream.chatroom.PandaChatroomFragment;
-import io.playcode.streambox.ui.pandastream.steamer.PandaStreamerInfoFragment;
+import io.playcode.streambox.ui.chatroom.PandaChatroomFragment;
+import io.playcode.streambox.ui.info.StreamInfoFragment;
 
 public class PandaStreamActivity extends AppCompatActivity implements PandaStreamContract.View {
 
@@ -100,7 +100,7 @@ public class PandaStreamActivity extends AppCompatActivity implements PandaStrea
             super(fm);
             mFragmentList = new ArrayList<>();
             mFragmentList.add(new PandaChatroomFragment());
-            mFragmentList.add(new PandaStreamerInfoFragment());
+            mFragmentList.add(new StreamInfoFragment());
         }
 
         @Override

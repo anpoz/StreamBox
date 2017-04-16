@@ -1,0 +1,110 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_card_stream_info"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="false"
+        app:cardElevation="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_room_cover"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                tools:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:id="@+id/tv_room_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/iv_room_cover"
+                android:layout_toRightOf="@+id/iv_room_cover"
+                android:maxLines="2"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp"
+                tools:text="终极猪皮，香蕉鱿鱼00000000000000000000000000000000"/>
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_room_title"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/iv_room_cover"
+                android:layout_toRightOf="@+id/iv_room_cover"
+                android:maxLines="1"
+                android:textColor="@color/secondary_text"
+                android:textSize="14sp"
+                tools:text="马上就有人鱼线的PDD"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_stream_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_nickname"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/iv_room_cover"
+                android:layout_toRightOf="@+id/iv_room_cover"
+                android:maxLines="1"
+                android:textColor="@color/secondary_text"
+                android:textSize="12sp"
+                tools:text="直播开始时间：2017/4/16 22:35"/>
+
+            <TextView
+                android:id="@+id/tv_person_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/iv_room_cover"
+                android:layout_toRightOf="@+id/iv_room_cover"
+                android:textSize="12sp"
+                tools:text="在线人数：99999999"
+                />
+
+            <TextView
+                android:id="@+id/tv_room_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:maxLines="1"
+                android:textColor="@color/secondary_text"
+                android:textSize="12sp"
+                tools:text="房间ID:666666"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>
+
+

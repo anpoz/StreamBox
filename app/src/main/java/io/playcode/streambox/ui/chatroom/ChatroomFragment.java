@@ -24,16 +24,16 @@ import io.playcode.streambox.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PandaChatroomFragment extends Fragment implements PandaChatroomContract.View {
+public class ChatroomFragment extends Fragment implements ChatroomContract.View {
 
 
     @BindView(R.id.rv_panda_chatroom)
     RecyclerView mRvPandaChatroom;
     Unbinder unbinder;
 
-    private PandaChatroomContract.Presenter mPresenter;
+    private ChatroomContract.Presenter mPresenter;
 
-    public PandaChatroomFragment() {
+    public ChatroomFragment() {
         // Required empty public constructor
     }
 
@@ -42,9 +42,9 @@ public class PandaChatroomFragment extends Fragment implements PandaChatroomCont
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_panda_chatroom, container, false);
+        View view = inflater.inflate(R.layout.fragment_chatroom, container, false);
         unbinder = ButterKnife.bind(this, view);
-        new PandaChatroomPresenter(this);
+        new ChatroomPresenter(this);
         mPresenter.subscribe();
 
         //init
@@ -61,7 +61,7 @@ public class PandaChatroomFragment extends Fragment implements PandaChatroomCont
     }
 
     @Override
-    public void setPresenter(PandaChatroomContract.Presenter presenter) {
+    public void setPresenter(ChatroomContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

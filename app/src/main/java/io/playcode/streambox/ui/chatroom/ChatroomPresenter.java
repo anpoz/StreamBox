@@ -23,8 +23,8 @@ import io.playcode.streambox.event.PandaDanmuEvent;
  * Created by anpoz on 2017/4/15.
  */
 
-public class PandaChatroomPresenter implements PandaChatroomContract.Presenter {
-    private PandaChatroomContract.View mView;
+public class ChatroomPresenter implements ChatroomContract.Presenter {
+    private ChatroomContract.View mView;
     private List<CharSequence> mCharSequenceList;
     private final ForegroundColorSpan mSpanRoleSupervisor;//超管
     private final ForegroundColorSpan mSpanRoleManager;//房管
@@ -34,7 +34,7 @@ public class PandaChatroomPresenter implements PandaChatroomContract.Presenter {
 
     PandaDanmuEvent mPandaDanmuEvent;
 
-    public PandaChatroomPresenter(PandaChatroomContract.View view) {
+    public ChatroomPresenter(ChatroomContract.View view) {
         mView = view;
         mView.setPresenter(this);
         mCharSequenceList = new ArrayList<>();

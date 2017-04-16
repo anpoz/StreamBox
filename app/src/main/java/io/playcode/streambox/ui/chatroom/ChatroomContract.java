@@ -9,7 +9,7 @@ import io.playcode.streambox.ui.base.BaseView;
  * Created by anpoz on 2017/4/15.
  */
 
-public interface PandaChatroomContract {
+public interface ChatroomContract {
     interface Presenter extends BasePresenter {
 
     }

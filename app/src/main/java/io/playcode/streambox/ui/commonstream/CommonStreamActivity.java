@@ -1,4 +1,4 @@
-package io.playcode.streambox.ui.pandastream;
+package io.playcode.streambox.ui.commonstream;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,8 +23,9 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import io.playcode.streambox.R;
 import io.playcode.streambox.ui.chatroom.ChatroomFragment;
 import io.playcode.streambox.ui.info.StreamInfoFragment;
+import io.playcode.streambox.ui.pandastream.PandaStreamActivity;
 
-public class PandaStreamActivity extends AppCompatActivity implements PandaStreamContract.View {
+public class CommonStreamActivity extends AppCompatActivity implements CommonStreamContract.View {
 
     @BindView(R.id.jc_player)
     JCVideoPlayerStandard mJcPlayer;
@@ -33,27 +34,35 @@ public class PandaStreamActivity extends AppCompatActivity implements PandaStrea
     @BindView(R.id.vp_switch)
     ViewPager mVpSwitch;
 
-    private static final String TAG_ROOM_ID = "tag room id";
-    private PandaStreamContract.Presenter mPresenter;
+    private static final String TAG_LIVE_ID = "tag live id";
+    private static final String TAG_LIVE_TYPE = "tag live type";
+    private static final String TAG_GAME_TYPE = "tag game type";
+    private CommonStreamContract.Presenter mPresenter;
 
-    public static void startActivity(Activity activity, String id) {
-        Intent intent = new Intent(activity, PandaStreamActivity.class);
-        intent.putExtra(TAG_ROOM_ID, id);
+    public static void startActivity(Activity activity, String live_type, String live_id, String game_type) {
+        Intent intent = new Intent(activity, CommonStreamActivity.class);
+        intent.putExtra(TAG_LIVE_ID, live_id);
+        intent.putExtra(TAG_LIVE_TYPE, live_type);
+        intent.putExtra(TAG_GAME_TYPE, game_type);
         activity.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_panda_stream);
+        setContentView(R.layout.activity_common_stream);
         ButterKnife.bind(this);
 
         JCVideoPlayer.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 
-        String id = getIntent().getStringExtra(TAG_ROOM_ID);
-        new PandaStreamPresenter(this);
+        String liveId = getIntent().getStringExtra(TAG_LIVE_ID);
+        String liveType = getIntent().getStringExtra(TAG_LIVE_TYPE);
+        String gameType = getIntent().getStringExtra(TAG_GAME_TYPE);
+        new CommonStreamPresenter(this);
+        mPresenter.setLiveId(liveId);
+        mPresenter.setLiveType(liveType);
+        mPresenter.setGameType(gameType);
         mPresenter.subscribe();
-        mPresenter.setRoomId(id);
 
         mVpSwitch.setAdapter(new PagerAdapter(getSupportFragmentManager()));
         mTabRoomSwitch.setupWithViewPager(mVpSwitch);
@@ -81,7 +90,7 @@ public class PandaStreamActivity extends AppCompatActivity implements PandaStrea
     }
 
     @Override
-    public void setPresenter(PandaStreamContract.Presenter presenter) {
+    public void setPresenter(CommonStreamContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

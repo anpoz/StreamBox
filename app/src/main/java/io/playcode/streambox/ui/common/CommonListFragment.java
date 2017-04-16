@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.playcode.streambox.R;
 import io.playcode.streambox.data.bean.CommonStreamListEntity;
+import io.playcode.streambox.ui.commonstream.CommonStreamActivity;
 import io.playcode.streambox.util.FormatUtil;
 import io.playcode.streambox.util.ImageLoader;
 
@@ -119,6 +120,11 @@ public class CommonListFragment extends Fragment implements CommonListContract.V
             holder.setText(R.id.tv_person_num, FormatUtil.formatPersonNum(String.valueOf(item.getLive_online())));
             holder.setText(R.id.tv_nickname, item.getLive_nickname());
             ImageLoader.withCenterCrop(getContext(), item.getLive_img(), holder.findViewById(R.id.iv_room_cover));
+            holder.findViewById(R.id.card_root).setOnClickListener(
+                    v -> CommonStreamActivity.startActivity(getActivity(),
+                            item.getLive_name(),
+                            item.getLive_id(),
+                            item.getGame_type()));
         }
     }
 }

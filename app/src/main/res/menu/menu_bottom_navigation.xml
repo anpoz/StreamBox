@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_panda"
+        android:icon="@mipmap/ic_launcher"
+        android:title="熊猫TV"/>
+    <item
+        android:id="@+id/menu_douyu"
+        android:icon="@mipmap/ic_launcher"
+        android:title="斗鱼TV"/>
+
+    <item
+        android:id="@+id/menu_quanmin"
+        android:icon="@mipmap/ic_launcher"
+        android:title="全民TV"/>
+
+    <item
+        android:id="@+id/menu_zhanqi"
+        android:icon="@mipmap/ic_launcher"
+        android:title="战旗TV"/>
+</menu>

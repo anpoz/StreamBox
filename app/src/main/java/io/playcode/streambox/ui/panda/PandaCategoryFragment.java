@@ -67,6 +67,7 @@ public class PandaCategoryFragment extends Fragment {
 
             mFragmentList.add(PandaListFragment.newInstance("lol"));
             mFragmentList.add(PandaListFragment.newInstance("hwzb"));
+            mFragmentList.add(PandaListFragment.newInstance("yzdr"));
             mFragmentList.add(PandaListFragment.newInstance("overwatch"));
             mFragmentList.add(PandaListFragment.newInstance("kingglory"));
             mFragmentList.add(PandaListFragment.newInstance("hearthstone"));
@@ -74,6 +75,7 @@ public class PandaCategoryFragment extends Fragment {
 
             mTitles.add("英雄联盟");
             mTitles.add("户外直播");
+            mTitles.add("熊猫星秀");
             mTitles.add("守望先锋");
             mTitles.add("王者荣耀");
             mTitles.add("炉石传说");

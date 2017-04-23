@@ -8,8 +8,8 @@ public class PandaDanmuEntity {
 
     /**
      * type : 1
-     * time : 1477356608
-     * data : {"from":{"__plat":"android","identity":"30","level":"4","msgcolor":"","nickName":"看了还说了","rid":"45560306","sp_identity":"0","userName":""},"to":{"toroom":"15161"},"content":"我去"}
+     * time : 1492968699
+     * data : {"from":{"identity":"30","nickName":"0005丶vip打折卡","badge":"","rid":"40533958","msgcolor":"","level":"7","sp_identity":"0","__plat":"android","userName":""},"to":{"toroom":"415164"},"content":"666666666"}
      */
 
     private String type;
@@ -42,9 +42,9 @@ public class PandaDanmuEntity {
 
     public static class DataEntity {
         /**
-         * from : {"__plat":"android","identity":"30","level":"4","msgcolor":"","nickName":"看了还说了","rid":"45560306","sp_identity":"0","userName":""}
-         * to : {"toroom":"15161"}
-         * content : 我去
+         * from : {"identity":"30","nickName":"0005丶vip打折卡","badge":"","rid":"40533958","msgcolor":"","level":"7","sp_identity":"0","__plat":"android","userName":""}
+         * to : {"toroom":"415164"}
+         * content : 666666666
          */
 
         private FromEntity from;
@@ -77,32 +77,26 @@ public class PandaDanmuEntity {
 
         public static class FromEntity {
             /**
-             * __plat : android
              * identity : 30
-             * level : 4
+             * nickName : 0005丶vip打折卡
+             * badge :
+             * rid : 40533958
              * msgcolor :
-             * nickName : 看了还说了
-             * rid : 45560306
+             * level : 7
              * sp_identity : 0
+             * __plat : android
              * userName :
              */
 
-            private String __plat;
             private String identity;
-            private String level;
-            private String msgcolor;
             private String nickName;
+            private String badge;
             private String rid;
+            private String msgcolor;
+            private String level;
             private String sp_identity;
+            private String __plat;
             private String userName;
-
-            public String get__plat() {
-                return __plat;
-            }
-
-            public void set__plat(String __plat) {
-                this.__plat = __plat;
-            }
 
             public String getIdentity() {
                 return identity;
@@ -110,22 +104,6 @@ public class PandaDanmuEntity {
 
             public void setIdentity(String identity) {
                 this.identity = identity;
-            }
-
-            public String getLevel() {
-                return level;
-            }
-
-            public void setLevel(String level) {
-                this.level = level;
-            }
-
-            public String getMsgcolor() {
-                return msgcolor;
-            }
-
-            public void setMsgcolor(String msgcolor) {
-                this.msgcolor = msgcolor;
             }
 
             public String getNickName() {
@@ -136,6 +114,14 @@ public class PandaDanmuEntity {
                 this.nickName = nickName;
             }
 
+            public String getBadge() {
+                return badge;
+            }
+
+            public void setBadge(String badge) {
+                this.badge = badge;
+            }
+
             public String getRid() {
                 return rid;
             }
@@ -144,12 +130,36 @@ public class PandaDanmuEntity {
                 this.rid = rid;
             }
 
+            public String getMsgcolor() {
+                return msgcolor;
+            }
+
+            public void setMsgcolor(String msgcolor) {
+                this.msgcolor = msgcolor;
+            }
+
+            public String getLevel() {
+                return level;
+            }
+
+            public void setLevel(String level) {
+                this.level = level;
+            }
+
             public String getSp_identity() {
                 return sp_identity;
             }
 
             public void setSp_identity(String sp_identity) {
                 this.sp_identity = sp_identity;
+            }
+
+            public String get__plat() {
+                return __plat;
+            }
+
+            public void set__plat(String __plat) {
+                this.__plat = __plat;
             }
 
             public String getUserName() {
@@ -163,7 +173,7 @@ public class PandaDanmuEntity {
 
         public static class ToEntity {
             /**
-             * toroom : 15161
+             * toroom : 415164
              */
 
             private String toroom;

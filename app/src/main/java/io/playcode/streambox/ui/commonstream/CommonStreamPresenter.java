@@ -1,6 +1,9 @@
 package io.playcode.streambox.ui.commonstream;
 
+import android.text.TextUtils;
+
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 import io.playcode.streambox.data.bean.CommonStreamEntity;
 import io.playcode.streambox.data.bean.StreamInfoEntity;
@@ -49,17 +52,23 @@ public class CommonStreamPresenter implements CommonStreamContract.Presenter {
 
                     @Override
                     public void onNext(CommonStreamEntity commonStreamEntity) {
-                        address = commonStreamEntity.getResult().getStream_list().get(0).getUrl();
-                        StreamInfoEntity infoEntity = new StreamInfoEntity();
-                        infoEntity.setLive_title(commonStreamEntity.getResult().getLive_title());
-                        infoEntity.setLive_type(liveType);
-                        infoEntity.setPush_time(commonStreamEntity.getResult().getPush_time());
-                        infoEntity.setLive_id(commonStreamEntity.getResult().getLive_id());
-                        infoEntity.setLive_online(commonStreamEntity.getResult().getLive_online() + "");
-                        infoEntity.setLive_nickname(commonStreamEntity.getResult().getLive_nickname());
-                        infoEntity.setLive_img(commonStreamEntity.getResult().getLive_img());
-                        EventBus.getDefault().postSticky(new StreamInfoEvent(infoEntity));
-                        mView.updateStreamAddress(address, commonStreamEntity.getResult().getLive_title());
+                        if (TextUtils.equals("failed", commonStreamEntity.getStatus()) ||
+                                commonStreamEntity.getResult().getStream_list() == null ||
+                                commonStreamEntity.getResult().getStream_list().size() == 0) {
+                            mView.showError("无法获取播放地址,主播或已下播");
+                        } else {
+                            address = commonStreamEntity.getResult().getStream_list().get(0).getUrl();
+                            StreamInfoEntity infoEntity = new StreamInfoEntity();
+                            infoEntity.setLive_title(commonStreamEntity.getResult().getLive_title());
+                            infoEntity.setLive_type(liveType);
+                            infoEntity.setPush_time(commonStreamEntity.getResult().getPush_time());
+                            infoEntity.setLive_id(commonStreamEntity.getResult().getLive_id());
+                            infoEntity.setLive_online(commonStreamEntity.getResult().getLive_online() + "");
+                            infoEntity.setLive_nickname(commonStreamEntity.getResult().getLive_nickname());
+                            infoEntity.setLive_img(commonStreamEntity.getResult().getLive_img());
+                            EventBus.getDefault().postSticky(new StreamInfoEvent(infoEntity));
+                            mView.updateStreamAddress(address, commonStreamEntity.getResult().getLive_title());
+                        }
                     }
 
                     @Override
@@ -76,7 +85,7 @@ public class CommonStreamPresenter implements CommonStreamContract.Presenter {
 
     @Override
     public void unSubscribe() {
-        mCompositeDisposable.clear();
+        mCompositeDisposable.dispose();
     }
 
     @Override
@@ -84,9 +93,10 @@ public class CommonStreamPresenter implements CommonStreamContract.Presenter {
         this.liveId = liveId;
     }
 
+    //发现有的平台会出现首字母大写的情况，但获取详细的api不接受有大写的参数
     @Override
     public void setLiveType(String liveType) {
-        this.liveType = liveType;
+        this.liveType = liveType.toLowerCase();
     }
 
     @Override

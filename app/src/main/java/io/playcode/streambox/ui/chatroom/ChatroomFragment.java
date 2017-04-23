@@ -56,6 +56,7 @@ public class ChatroomFragment extends Fragment implements ChatroomContract.View 
 
     @Override
     public void onDestroyView() {
+        mPresenter.unSubscribe();
         super.onDestroyView();
         unbinder.unbind();
     }

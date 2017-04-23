@@ -65,6 +65,7 @@ public class StreamInfoFragment extends Fragment implements StreamInfoContract.V
 
     @Override
     public void onDestroyView() {
+        mPresenter.unSubscribe();
         super.onDestroyView();
         mPresenter.unSubscribe();
         unbinder.unbind();

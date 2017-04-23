@@ -100,7 +100,13 @@ public class PandaListFragment extends Fragment implements PandaListContract.Vie
     }
 
     @Override
+    public void cancelRefreshing() {
+        mSwipyrefreshlayout.setRefreshing(false);
+    }
+
+    @Override
     public void onDestroyView() {
+        mPresenter.unSubscribe();
         super.onDestroyView();
         unbinder.unbind();
     }

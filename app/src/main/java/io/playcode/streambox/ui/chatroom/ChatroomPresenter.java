@@ -18,6 +18,7 @@ import java.util.List;
 
 import io.playcode.streambox.data.bean.PandaDanmuEntity;
 import io.playcode.streambox.event.PandaDanmuEvent;
+import io.playcode.streambox.event.StreamInfoEvent;
 
 /**
  * Created by anpoz on 2017/4/15.
@@ -31,8 +32,18 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
     private final ForegroundColorSpan mSpanRoleAnchor;//主播
     private final ForegroundColorSpan mSpanRoleaudience;//观众
     private final ForegroundColorSpan mSpanNickname;//名称
+    private final ForegroundColorSpan mSpanBamboo;//名称
 
-    PandaDanmuEvent mPandaDanmuEvent;
+    private String live_id;
+
+    private String last_content;
+    private static final String DANMU_TYPE = "1";
+    private static final String BAMBOO_TYPE = "206";
+    private static final String AUDIENCE_TYPE = "207";
+    private static final String TU_HAO_TYPE = "306";
+    private static final String MANAGER = "60";
+    private static final String SP_MANAGER = "120";
+    private static final String HOSTER = "90";
 
     public ChatroomPresenter(ChatroomContract.View view) {
         mView = view;
@@ -44,6 +55,7 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
         mSpanRoleAnchor = new ForegroundColorSpan(Color.YELLOW);
         mSpanRoleaudience = new ForegroundColorSpan(Color.GREEN);
         mSpanNickname = new ForegroundColorSpan(Color.BLACK);
+        mSpanBamboo = new ForegroundColorSpan(Color.LTGRAY);
     }
 
     @Override
@@ -57,20 +69,23 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
         EventBus.getDefault().unregister(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onStreamInfoEvent(StreamInfoEvent event) {
+        live_id = event.getStreamInfoEntity().getLive_id();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPandaDanmuEvent(PandaDanmuEvent pandaDanmuEvent) {
-        if (pandaDanmuEvent == mPandaDanmuEvent) {
+        if (TextUtils.equals(pandaDanmuEvent.getPandaDanmuEntity().getData().getContent(), last_content) &&
+                TextUtils.equals(pandaDanmuEvent.getPandaDanmuEntity().getType(), DANMU_TYPE)) {
             return;
         }
-        mPandaDanmuEvent = pandaDanmuEvent;
+        last_content = pandaDanmuEvent.getPandaDanmuEntity().getData().getContent();
 
-        String DANMU_TYPE = "1";
-        String BAMBOO_TYPE = "206";
-        String AUDIENCE_TYPE = "207";
-        String TU_HAO_TYPE = "306";
-        String MANAGER = "60";
-        String SP_MANAGER = "120";
-        String HOSTER = "90";
+        //避免串房
+        if (!TextUtils.equals(live_id, pandaDanmuEvent.getLive_id())) {
+            return;
+        }
 
         PandaDanmuEntity danmu = pandaDanmuEvent.getPandaDanmuEntity();
         String nickname = danmu.getData().getFrom().getNickName();
@@ -111,13 +126,23 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
                 builder.setSpan(mSpanNickname, 4, nickname.length() + 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 mCharSequenceList.add(builder);
             }
-            mView.addCommit(mCharSequenceList);
         } else if (TextUtils.equals(danmu.getType(), BAMBOO_TYPE)) {//竹子
-            ALog.d(nickname + "赠送给主播[" + danmu.getData().getContent() + "]竹子");
+            builder.append(nickname);
+            builder.append("赠送给主播[");
+            builder.append(content);
+            builder.append("个竹子");
+            builder.setSpan(mSpanNickname, 0, nickname.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            builder.setSpan(mSpanBamboo, nickname.length() + 6, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            mCharSequenceList.add(builder);
         } else if (TextUtils.equals(danmu.getType(), TU_HAO_TYPE)) {//礼物
             ALog.d(nickname + "送了一波礼物");
         } else if (TextUtils.equals(danmu.getType(), AUDIENCE_TYPE)) {//人数更新
-            ALog.d("实时人数：" + content);
+            builder.append("实时人数更新[");
+            builder.append(content);
+            builder.append("]人");
+            builder.setSpan(mSpanNickname, 7, content.length() + 7, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            mCharSequenceList.add(builder);
         }
+        mView.addCommit(mCharSequenceList);
     }
 }

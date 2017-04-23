@@ -2,33 +2,36 @@ package io.playcode.streambox.ui.commonstream;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.blankj.aloglibrary.ALog;
+import com.shuyu.gsyvideoplayer.GSYVideoPlayer;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import io.playcode.streambox.R;
 import io.playcode.streambox.ui.chatroom.ChatroomFragment;
 import io.playcode.streambox.ui.info.StreamInfoFragment;
-import io.playcode.streambox.ui.pandastream.PandaStreamActivity;
 
 public class CommonStreamActivity extends AppCompatActivity implements CommonStreamContract.View {
 
-    @BindView(R.id.jc_player)
-    JCVideoPlayerStandard mJcPlayer;
+    @BindView(R.id.player)
+    StandardGSYVideoPlayer mPlayer;
     @BindView(R.id.tab_room_switch)
     TabLayout mTabRoomSwitch;
     @BindView(R.id.vp_switch)
@@ -38,6 +41,7 @@ public class CommonStreamActivity extends AppCompatActivity implements CommonStr
     private static final String TAG_LIVE_TYPE = "tag live type";
     private static final String TAG_GAME_TYPE = "tag game type";
     private CommonStreamContract.Presenter mPresenter;
+    private OrientationUtils mOrientationUtils;
 
     public static void startActivity(Activity activity, String live_type, String live_id, String game_type) {
         Intent intent = new Intent(activity, CommonStreamActivity.class);
@@ -53,7 +57,30 @@ public class CommonStreamActivity extends AppCompatActivity implements CommonStr
         setContentView(R.layout.activity_common_stream);
         ButterKnife.bind(this);
 
-        JCVideoPlayer.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        SharedPreferences preferences = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
+        boolean mediaCodec = preferences.getBoolean(getString(R.string.enableMediaCodec), false);
+        boolean needShowWifiTip = preferences.getBoolean(getString(R.string.enableNeedShowWifiTip), true);
+        boolean rotateViewAuto = preferences.getBoolean(getString(R.string.enableRotateViewAuto), false);
+        boolean showFullAnimation = preferences.getBoolean(getString(R.string.enableShowFullAnimation), false);
+
+        mOrientationUtils = new OrientationUtils(this, mPlayer);
+        mPlayer.setIsTouchWiget(true);
+        mPlayer.setRotateViewAuto(rotateViewAuto);
+        mPlayer.setLockLand(true);
+        mPlayer.setShowFullAnimation(showFullAnimation);
+        mPlayer.setNeedShowWifiTip(needShowWifiTip);
+        mPlayer.setNeedLockFull(true);
+        mPlayer.findViewById(R.id.progress).setVisibility(View.INVISIBLE);
+        mPlayer.findViewById(R.id.total).setVisibility(View.INVISIBLE);
+        if (mediaCodec) {
+            GSYVideoType.enableMediaCodec();
+        } else {
+            GSYVideoType.disableMediaCodec();
+        }
+        mPlayer.getFullscreenButton().setOnClickListener(v -> {
+            mOrientationUtils.resolveByClick();
+            mPlayer.startWindowFullscreen(CommonStreamActivity.this, true, true);
+        });
 
         String liveId = getIntent().getStringExtra(TAG_LIVE_ID);
         String liveType = getIntent().getStringExtra(TAG_LIVE_TYPE);
@@ -70,23 +97,24 @@ public class CommonStreamActivity extends AppCompatActivity implements CommonStr
 
     @Override
     public void onBackPressed() {
-        if (mJcPlayer.backPress()) {
+        if (StandardGSYVideoPlayer.backFromWindowFull(this)) {
             return;
         }
         mPresenter.unSubscribe();
-        finish();
+        super.onBackPressed();
     }
 
     @Override
     protected void onDestroy() {
         mPresenter.unSubscribe();
+        GSYVideoPlayer.releaseAllVideos();
+        mOrientationUtils.releaseListener();
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mJcPlayer.releaseAllVideos();
     }
 
     @Override
@@ -97,8 +125,20 @@ public class CommonStreamActivity extends AppCompatActivity implements CommonStr
     @Override
     public void updateStreamAddress(String url, String title) {
         ALog.d(url);
-        mJcPlayer.setUp(url, JCVideoPlayer.SCREEN_LAYOUT_NORMAL, title);
-        mJcPlayer.startButton.performClick();
+        try {
+            mPlayer.setUp(url,false,null,title);
+            mPlayer.startPlayLogic();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("线路不佳，直播流无法播放");
+        }
+    }
+
+    @Override
+    public void showError(String error) {
+        Snackbar.make(mVpSwitch, error, Snackbar.LENGTH_LONG)
+                .setAction("知道啦", v -> CommonStreamActivity.this.finish())
+                .show();
     }
 
     private static class PagerAdapter extends FragmentPagerAdapter {

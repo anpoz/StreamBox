@@ -88,6 +88,7 @@ public class CommonListFragment extends Fragment implements CommonListContract.V
 
     @Override
     public void onDestroyView() {
+        mPresenter.unSubscribe();
         super.onDestroyView();
         unbinder.unbind();
     }

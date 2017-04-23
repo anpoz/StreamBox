@@ -8,9 +8,11 @@ import io.playcode.streambox.data.bean.PandaDanmuEntity;
 
 public class PandaDanmuEvent {
     private PandaDanmuEntity mPandaDanmuEntity;
+    private String live_id;
 
-    public PandaDanmuEvent(PandaDanmuEntity pandaDanmuEntity) {
+    public PandaDanmuEvent(PandaDanmuEntity pandaDanmuEntity, String live_id) {
         mPandaDanmuEntity = pandaDanmuEntity;
+        this.live_id = live_id;
     }
 
     public PandaDanmuEntity getPandaDanmuEntity() {
@@ -19,5 +21,13 @@ public class PandaDanmuEvent {
 
     public void setPandaDanmuEntity(PandaDanmuEntity pandaDanmuEntity) {
         mPandaDanmuEntity = pandaDanmuEntity;
+    }
+
+    public String getLive_id() {
+        return live_id;
+    }
+
+    public void setLive_id(String live_id) {
+        this.live_id = live_id;
     }
 }

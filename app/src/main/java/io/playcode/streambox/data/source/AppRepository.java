@@ -17,7 +17,7 @@ public class AppRepository {
     private static final String PANDA_ROOM_BASE_URL = "http://room.api.m.panda.tv/";
     private static final String PANDA_RIVEN_BASE_URL = "http://riven.panda.tv/";
     private static final String LIVE_BASE_URL = "http://api.maxjia.com/";
-    private int limit = 20;
+    private static final String PAGE_LIMIT = "20";
 
     private AppRepository() {
 
@@ -37,13 +37,19 @@ public class AppRepository {
     public Observable<PandaStreamListEntity> getPandaStreamList(String category, String pageno) {
         return RetrofitHelper.getInstance()
                 .configRetrofit(API.class, PANDA_LIST_BASE_URL)
-                .getPandaStreamList("android", "3.0.4.3142", category, "person_num", pageno, limit, "2");
+                .getPandaStreamList(category, pageno, PAGE_LIMIT);
     }
 
     public Observable<PandaStreamEntity> getPandaStreamRoom(String roomid) {
         return RetrofitHelper.getInstance()
                 .configRetrofit(API.class, PANDA_ROOM_BASE_URL)
                 .getPandaStreamRoom("room.shareapi", roomid);
+    }
+
+    public Observable<PandaStreamEntity> getPandaStreamRoomNewApi(String roomid) {
+        return RetrofitHelper.getInstance()
+                .configRetrofit(API.class, PANDA_LIST_BASE_URL)
+                .getPandaStreamRoomNewApi(roomid);
     }
 
     public Observable<PandaStreamDanmuServerEntity> getPandaDanmuServer(String roomid) {
@@ -57,7 +63,7 @@ public class AppRepository {
                                                                   String game_type) {
         return RetrofitHelper.getInstance()
                 .configRetrofit(API.class, LIVE_BASE_URL)
-                .getCommonStreamList(offset, limit, live_type, game_type);
+                .getCommonStreamList(offset, PAGE_LIMIT, live_type, game_type);
     }
 
     public Observable<CommonStreamEntity> getCommonStreamDetail(String live_type,

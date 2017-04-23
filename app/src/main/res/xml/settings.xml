@@ -1,4 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="播放设置">
 
+        <SwitchPreference
+            android:key="@string/enableMediaCodec"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="硬件播放"/>
+
+        <SwitchPreference
+            android:key="@string/enableRotateViewAuto"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="自动旋转"/>
+
+        <SwitchPreference
+            android:key="@string/enableShowFullAnimation"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="全屏动画"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/enableNeedShowWifiTip"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="流量警告"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>

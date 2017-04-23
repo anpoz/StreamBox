@@ -2,13 +2,17 @@ package io.playcode.streambox.ui.panda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.playcode.streambox.data.bean.PandaStreamListEntity;
 import io.playcode.streambox.data.source.AppRepository;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -37,7 +41,7 @@ public class PandaListPresenter implements PandaListContract.Presenter {
 
     @Override
     public void unSubscribe() {
-        mCompositeDisposable.clear();
+        mCompositeDisposable.dispose();
     }
 
     @Override
@@ -45,8 +49,35 @@ public class PandaListPresenter implements PandaListContract.Presenter {
         this.gameType = gameType;
     }
 
+    private void setTimeoutAction() {
+        Observable.timer(5, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mCompositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+                        mView.cancelRefreshing();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     @Override
     public void requestRefresh() {
+        setTimeoutAction();
         curPageNo = 1;
         AppRepository.getInstance()
                 .getPandaStreamList(gameType, curPageNo + "")
@@ -79,6 +110,7 @@ public class PandaListPresenter implements PandaListContract.Presenter {
 
     @Override
     public void requestUpdate() {
+        setTimeoutAction();
         curPageNo++;
         AppRepository.getInstance()
                 .getPandaStreamList(gameType, curPageNo + "")

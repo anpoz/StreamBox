@@ -18,5 +18,6 @@ public interface CommonStreamContract {
 
     interface View extends BaseView<Presenter> {
         void updateStreamAddress(String url, String title);
+        void showError(String error);
     }
 }

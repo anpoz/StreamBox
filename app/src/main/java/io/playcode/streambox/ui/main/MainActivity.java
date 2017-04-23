@@ -1,5 +1,6 @@
 package io.playcode.streambox.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import io.playcode.streambox.R;
 import io.playcode.streambox.ui.common.CommonCategoryFragment;
 import io.playcode.streambox.ui.panda.PandaCategoryFragment;
+import io.playcode.streambox.ui.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
+                case R.id.menu_settings:
+                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                    return true;
                 case R.id.menu_about:
                     return true;
                 case R.id.menu_search:
@@ -108,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
             super(fm);
             mFragmentList = new ArrayList<>();
             mFragmentList.add(new PandaCategoryFragment());
-
             mFragmentList.add(CommonCategoryFragment.newInstance("douyu"));
             mFragmentList.add(CommonCategoryFragment.newInstance("quanmin"));
             mFragmentList.add(CommonCategoryFragment.newInstance("zhanqi"));

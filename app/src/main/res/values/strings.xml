@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">StreamBox</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="enableMediaCodec">enableMediaCodec</string>
+    <string name="enableRotateViewAuto">enableRotateViewAuto</string>
+    <string name="enableShowFullAnimation">enableShowFullAnimation</string>
+    <string name="enableNeedShowWifiTip">enableNeedShowWifiTip</string>
 </resources>

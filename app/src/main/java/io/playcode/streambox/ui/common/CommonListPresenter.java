@@ -38,7 +38,7 @@ public class CommonListPresenter implements CommonListContract.Presenter {
 
     @Override
     public void unSubscribe() {
-        mCompositeDisposable.clear();
+        mCompositeDisposable.dispose();
     }
 
     @Override

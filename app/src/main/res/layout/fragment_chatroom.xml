@@ -2,8 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:paddingLeft="16dp"
-             android:paddingRight="16dp"
+             android:background="#F5F5F5"
              tools:context=".ui.chatroom.ChatroomFragment">
 
     <android.support.v7.widget.RecyclerView

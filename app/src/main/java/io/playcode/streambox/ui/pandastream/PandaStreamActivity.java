@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import io.playcode.streambox.R;
 import io.playcode.streambox.ui.chatroom.ChatroomFragment;
 import io.playcode.streambox.ui.info.StreamInfoFragment;
+import io.playcode.streambox.widget.DanmuVideoPlayer;
 
 public class PandaStreamActivity extends AppCompatActivity implements PandaStreamContract.View {
 

@@ -30,7 +30,6 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
     private final ForegroundColorSpan mSpanRoleSupervisor;//超管
     private final ForegroundColorSpan mSpanRoleManager;//房管
     private final ForegroundColorSpan mSpanRoleAnchor;//主播
-    private final ForegroundColorSpan mSpanRoleaudience;//观众
     private final ForegroundColorSpan mSpanNickname;//名称
     private final ForegroundColorSpan mSpanBamboo;//名称
 
@@ -50,12 +49,11 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
         mView.setPresenter(this);
         mCharSequenceList = new ArrayList<>();
 
-        mSpanRoleSupervisor = new ForegroundColorSpan(Color.RED);
-        mSpanRoleManager = new ForegroundColorSpan(Color.BLUE);
-        mSpanRoleAnchor = new ForegroundColorSpan(Color.YELLOW);
-        mSpanRoleaudience = new ForegroundColorSpan(Color.GREEN);
-        mSpanNickname = new ForegroundColorSpan(Color.BLACK);
-        mSpanBamboo = new ForegroundColorSpan(Color.LTGRAY);
+        mSpanRoleSupervisor = new ForegroundColorSpan(Color.parseColor("#E57373"));
+        mSpanRoleManager = new ForegroundColorSpan(Color.parseColor("#FF8A65"));
+        mSpanRoleAnchor = new ForegroundColorSpan(Color.parseColor("#F06292"));
+        mSpanNickname = new ForegroundColorSpan(Color.parseColor("#607D8B"));
+        mSpanBamboo = new ForegroundColorSpan(Color.parseColor("#BA68C8"));
     }
 
     @Override
@@ -118,21 +116,19 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
                 builder.setSpan(mSpanNickname, 4, nickname.length() + 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 mCharSequenceList.add(builder);
             } else {
-                builder.append("[观众]");
                 builder.append(nickname);
                 builder.append(":");
                 builder.append(content);
-                builder.setSpan(mSpanRoleaudience, 0, 4, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                builder.setSpan(mSpanNickname, 4, nickname.length() + 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.setSpan(mSpanNickname, 0, nickname.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 mCharSequenceList.add(builder);
             }
         } else if (TextUtils.equals(danmu.getType(), BAMBOO_TYPE)) {//竹子
             builder.append(nickname);
-            builder.append("赠送给主播[");
+            builder.append("赠送给主播【");
             builder.append(content);
-            builder.append("个竹子");
+            builder.append("】个竹子");
             builder.setSpan(mSpanNickname, 0, nickname.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            builder.setSpan(mSpanBamboo, nickname.length() + 6, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            builder.setSpan(mSpanBamboo, nickname.length() + 6, content.length() + nickname.length() + 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             mCharSequenceList.add(builder);
         } else if (TextUtils.equals(danmu.getType(), TU_HAO_TYPE)) {//礼物
             ALog.d(nickname + "送了一波礼物");

@@ -1,5 +1,7 @@
 package io.playcode.streambox.ui.common;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +75,11 @@ public class CommonListPresenter implements CommonListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        if (TextUtils.equals(e.getMessage(), "timeout")) {
+                            mView.showError("网络错误，刷新超时");
+                        } else {
+                            mView.showError("网络错误");
+                        }
                     }
 
                     @Override
@@ -105,7 +111,11 @@ public class CommonListPresenter implements CommonListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        if (TextUtils.equals(e.getMessage(), "timeout")) {
+                            mView.showError("网络错误，刷新超时");
+                        } else {
+                            mView.showError("网络错误");
+                        }
                     }
 
                     @Override

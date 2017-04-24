@@ -19,6 +19,6 @@ public interface PandaListContract {
 
     interface View extends BaseView<Presenter> {
         void update(List<PandaStreamListEntity.DataEntity.ItemsEntity> pandaRoomEntities);
-        void cancelRefreshing();
+        void showError(String error);
     }
 }

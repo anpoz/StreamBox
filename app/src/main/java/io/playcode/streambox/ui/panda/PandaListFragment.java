@@ -4,6 +4,7 @@ package io.playcode.streambox.ui.panda;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -100,8 +101,9 @@ public class PandaListFragment extends Fragment implements PandaListContract.Vie
     }
 
     @Override
-    public void cancelRefreshing() {
+    public void showError(String error) {
         mSwipyrefreshlayout.setRefreshing(false);
+        Snackbar.make(mRvPandaList, error, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

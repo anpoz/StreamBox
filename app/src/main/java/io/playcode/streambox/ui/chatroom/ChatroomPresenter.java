@@ -32,6 +32,7 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
     private final ForegroundColorSpan mSpanRoleAnchor;//主播
     private final ForegroundColorSpan mSpanNickname;//名称
     private final ForegroundColorSpan mSpanBamboo;//名称
+    private final ForegroundColorSpan mSpanDanmu;//弹幕
 
     private String live_id;
 
@@ -54,6 +55,7 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
         mSpanRoleAnchor = new ForegroundColorSpan(Color.parseColor("#F06292"));
         mSpanNickname = new ForegroundColorSpan(Color.parseColor("#607D8B"));
         mSpanBamboo = new ForegroundColorSpan(Color.parseColor("#BA68C8"));
+        mSpanDanmu = new ForegroundColorSpan(Color.parseColor("#424242"));
     }
 
     @Override
@@ -98,6 +100,8 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
                 builder.append(content);
                 builder.setSpan(mSpanRoleSupervisor, 0, 4, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 builder.setSpan(mSpanNickname, 4, nickname.length() + 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.setSpan(mSpanDanmu, nickname.length() + 4,
+                        nickname.length() + 4 + content.length() + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 mCharSequenceList.add(builder);
             } else if (TextUtils.equals(identity, MANAGER)) {//房管
                 builder.append("[房管]");
@@ -106,6 +110,8 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
                 builder.append(content);
                 builder.setSpan(mSpanRoleManager, 0, 4, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 builder.setSpan(mSpanNickname, 4, nickname.length() + 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.setSpan(mSpanDanmu, nickname.length() + 4,
+                        nickname.length() + 4 + content.length() + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 mCharSequenceList.add(builder);
             } else if (TextUtils.equals(identity, HOSTER)) {//主播
                 builder.append("[主播]");
@@ -114,12 +120,16 @@ public class ChatroomPresenter implements ChatroomContract.Presenter {
                 builder.append(content);
                 builder.setSpan(mSpanRoleAnchor, 0, 4, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 builder.setSpan(mSpanNickname, 4, nickname.length() + 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.setSpan(mSpanDanmu, nickname.length() + 4,
+                        nickname.length() + 4 + content.length() + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 mCharSequenceList.add(builder);
             } else {
                 builder.append(nickname);
                 builder.append(":");
                 builder.append(content);
                 builder.setSpan(mSpanNickname, 0, nickname.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.setSpan(mSpanDanmu, nickname.length(),
+                        nickname.length() + content.length() + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 mCharSequenceList.add(builder);
             }
         } else if (TextUtils.equals(danmu.getType(), BAMBOO_TYPE)) {//竹子

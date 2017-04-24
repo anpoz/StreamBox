@@ -2,6 +2,8 @@ package io.playcode.streambox.ui.commonstream;
 
 import android.text.TextUtils;
 
+import com.blankj.aloglibrary.ALog;
+
 import org.greenrobot.eventbus.EventBus;
 import org.w3c.dom.Text;
 
@@ -58,6 +60,7 @@ public class CommonStreamPresenter implements CommonStreamContract.Presenter {
                             mView.showError("无法获取播放地址,主播或已下播");
                         } else {
                             address = commonStreamEntity.getResult().getStream_list().get(0).getUrl();
+                            ALog.d(address);
                             StreamInfoEntity infoEntity = new StreamInfoEntity();
                             infoEntity.setLive_title(commonStreamEntity.getResult().getLive_title());
                             infoEntity.setLive_type(liveType);

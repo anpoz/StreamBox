@@ -23,5 +23,7 @@ public interface CommonListContract {
 
     interface View extends BaseView<Presenter> {
         void update(List<CommonStreamListEntity.ResultEntity> resultEntityList);
+
+        void showError(String error);
     }
 }

@@ -1,5 +1,7 @@
 package io.playcode.streambox.ui.panda;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -49,35 +51,8 @@ public class PandaListPresenter implements PandaListContract.Presenter {
         this.gameType = gameType;
     }
 
-    private void setTimeoutAction() {
-        Observable.timer(5, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Long>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        mCompositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onNext(Long aLong) {
-                        mView.cancelRefreshing();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
-
     @Override
     public void requestRefresh() {
-        setTimeoutAction();
         curPageNo = 1;
         AppRepository.getInstance()
                 .getPandaStreamList(gameType, curPageNo + "")
@@ -98,7 +73,11 @@ public class PandaListPresenter implements PandaListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        if (TextUtils.equals(e.getMessage(), "timeout")) {
+                            mView.showError("网络错误，刷新超时");
+                        } else {
+                            mView.showError("网络错误");
+                        }
                     }
 
                     @Override
@@ -110,7 +89,6 @@ public class PandaListPresenter implements PandaListContract.Presenter {
 
     @Override
     public void requestUpdate() {
-        setTimeoutAction();
         curPageNo++;
         AppRepository.getInstance()
                 .getPandaStreamList(gameType, curPageNo + "")
@@ -130,7 +108,11 @@ public class PandaListPresenter implements PandaListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        if (TextUtils.equals(e.getMessage(), "timeout")) {
+                            mView.showError("网络错误，刷新超时");
+                        } else {
+                            mView.showError("网络错误");
+                        }
                     }
 
                     @Override

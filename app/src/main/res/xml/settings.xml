@@ -28,5 +28,9 @@
             android:summaryOn="开启"
             android:title="流量警告"/>
 
+        <ListPreference
+            android:title="画质优先选择"
+            android:key="choose"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

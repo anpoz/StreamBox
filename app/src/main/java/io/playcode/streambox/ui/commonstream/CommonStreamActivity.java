@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.blankj.aloglibrary.ALog;
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer;
@@ -70,8 +69,6 @@ public class CommonStreamActivity extends AppCompatActivity implements CommonStr
         mPlayer.setShowFullAnimation(showFullAnimation);
         mPlayer.setNeedShowWifiTip(needShowWifiTip);
         mPlayer.setNeedLockFull(true);
-        mPlayer.findViewById(R.id.progress).setVisibility(View.INVISIBLE);
-        mPlayer.findViewById(R.id.total).setVisibility(View.INVISIBLE);
         if (mediaCodec) {
             GSYVideoType.enableMediaCodec();
         } else {
@@ -97,10 +94,12 @@ public class CommonStreamActivity extends AppCompatActivity implements CommonStr
 
     @Override
     public void onBackPressed() {
+        if (mOrientationUtils != null) {
+            mOrientationUtils.backToProtVideo();
+        }
         if (StandardGSYVideoPlayer.backFromWindowFull(this)) {
             return;
         }
-        mPresenter.unSubscribe();
         super.onBackPressed();
     }
 

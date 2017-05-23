@@ -1,6 +1,6 @@
 package io.playcode.streambox.ui.pandastream;
 
-import io.playcode.streambox.data.bean.PandaDanmuEntity;
+import io.playcode.streambox.data.bean.BaseDanmu;
 import io.playcode.streambox.ui.base.BasePresenter;
 import io.playcode.streambox.ui.base.BaseView;
 
@@ -15,5 +15,6 @@ public interface PandaStreamContract {
 
     interface View extends BaseView<Presenter> {
         void updateStreamAddress(String url, String title);
+        void addDanmu(BaseDanmu danmu);
     }
 }

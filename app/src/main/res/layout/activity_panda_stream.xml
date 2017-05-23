@@ -7,17 +7,11 @@
     android:layout_height="match_parent"
     tools:context="io.playcode.streambox.ui.pandastream.PandaStreamActivity">
 
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+    <io.playcode.streambox.widget.DanmakuVideoPlayer
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentTop="true"/>
-
-    <!--<io.playcode.streambox.widget.DanmuVideoPlayer-->
-        <!--android:id="@+id/player"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_alignParentTop="true"/>-->
 
     <LinearLayout
         android:layout_width="match_parent"

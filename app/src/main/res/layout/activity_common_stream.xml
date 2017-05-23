@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="io.playcode.streambox.ui.commonstream.CommonStreamActivity">
 
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+    <io.playcode.streambox.widget.DanmakuVideoPlayer
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="200dp"

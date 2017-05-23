@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="io.playcode.streambox"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="io.playcode.streambox">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -24,12 +24,15 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.commonstream.CommonStreamActivity">
+        <activity
+            android:name=".ui.commonstream.CommonStreamActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:theme="@style/AppTheme.ActionBar"
             android:name=".ui.settings.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.ActionBar">
         </activity>
     </application>
 

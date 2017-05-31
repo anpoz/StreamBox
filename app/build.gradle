@@ -40,6 +40,7 @@ dependencies {
     compile deps.recyclerviewv7
     compile deps.design
     compile deps.cardviewv7
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.blankj:alog:0.0.1'
@@ -55,11 +56,10 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.shuyu:GSYVideoPlayer:1.6.4'
     compile 'com.android.support:support-vector-drawable:25.3.1'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.github.ctiao:DanmakuFlameMaster:0.8.3'
     compile 'com.github.ctiao:ndkbitmap-armv7a:0.8.3'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
 repositories {
     mavenCentral()

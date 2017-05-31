@@ -139,7 +139,7 @@ public class PandaStreamActivity extends AppCompatActivity implements PandaStrea
 		private List<Fragment> mFragmentList;
 		private String[] titles = {"聊天", "主播"};
 
-		public PagerAdapter(FragmentManager fm) {
+		PagerAdapter(FragmentManager fm) {
 			super(fm);
 			mFragmentList = new ArrayList<>();
 			mFragmentList.add(new ChatroomFragment());

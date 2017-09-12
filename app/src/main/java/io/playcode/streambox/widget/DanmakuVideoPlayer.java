@@ -42,9 +42,8 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 	private BaseDanmakuParser mParser;//解析器对象
 	private IDanmakuView mDanmakuView;//弹幕view
 	private DanmakuContext mDanmakuContext;
-	private long mDanmakuStartSeekPosition = -1;
 
-	private boolean mDanmakuShow = true;
+	private SwitchCompat mToggleDanmaku;
 
 	public DanmakuVideoPlayer(Context context, Boolean fullFlag) {
 		super(context, fullFlag);
@@ -68,14 +67,11 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 	protected void init(Context context) {
 		super.init(context);
 		mDanmakuView = (DanmakuView) findViewById(R.id.danmaku_view);
-		SwitchCompat toggleDanmaku = (SwitchCompat) findViewById(R.id.switch_danmu);
+		mToggleDanmaku = (SwitchCompat) findViewById(R.id.switch_danmu);
 		//初始化弹幕显示
 		initDanmaku();
 
-		toggleDanmaku.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			mDanmakuShow = isChecked;
-			resolveDanmakuShow();
-		});
+		mToggleDanmaku.setOnCheckedChangeListener((buttonView, isChecked) -> resolveDanmakuShow());
 	}
 
 	@Override
@@ -106,21 +102,6 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 		releaseDanmaku(this);
 	}
 
-
-	@Override
-	public void onSeekComplete() {
-		super.onSeekComplete();
-		int time = mProgressBar.getProgress() * getDuration() / 100;
-		//如果已经初始化过的，直接seek到对于位置
-		if (mHadPlay && getDanmakuView() != null && getDanmakuView().isPrepared()) {
-			resolveDanmakuSeek(this, time);
-		}
-		else if (mHadPlay && getDanmakuView() != null && !getDanmakuView().isPrepared()) {
-			//如果没有初始化过的，记录位置等待
-			setDanmakuStartSeekPosition(time);
-		}
-	}
-
 	/**
 	 * 处理播放器在全屏切换时，弹幕显示的逻辑
 	 * 需要格外注意的是，因为全屏和小屏，是切换了播放器，所以需要同步之间的弹幕状态
@@ -131,8 +112,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 		if (gsyBaseVideoPlayer != null) {
 			DanmakuVideoPlayer gsyVideoPlayer = (DanmakuVideoPlayer) gsyBaseVideoPlayer;
 			//对弹幕设置偏移记录
-			gsyVideoPlayer.setDanmakuStartSeekPosition(getCurrentPositionWhenPlaying());
-			gsyVideoPlayer.setDanmakuShow(getDanmakuShow());
+			gsyVideoPlayer.getToggleDanmaku().setChecked(getToggleDanmaku().isChecked());
 			onPrepareDanmaku(gsyVideoPlayer);
 		}
 		return gsyBaseVideoPlayer;
@@ -147,7 +127,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 		super.resolveNormalVideoShow(oldF, vp, gsyVideoPlayer);
 		if (gsyVideoPlayer != null) {
 			DanmakuVideoPlayer gsyDanmaVideoPlayer = (DanmakuVideoPlayer) gsyVideoPlayer;
-			setDanmakuShow(gsyDanmaVideoPlayer.getDanmakuShow());
+			getToggleDanmaku().setChecked(gsyDanmaVideoPlayer.getToggleDanmaku().isChecked());
 			if (gsyDanmaVideoPlayer.getDanmakuView() != null &&
 					gsyDanmaVideoPlayer.getDanmakuView().isPrepared()) {
 				resolveDanmakuSeek(this, gsyDanmaVideoPlayer.getCurrentPositionWhenPlaying());
@@ -168,7 +148,10 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 		overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
 
 		mDanmakuContext = DanmakuContext.create();
-		mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.2f).setScaleTextSize(1.2f)
+		mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3)
+				.setDuplicateMergingEnabled(false)
+				.setScrollSpeedFactor(1.2f)
+				.setScaleTextSize(1.2f)
 				.setMaximumLines(maxLinesPair)
 				.preventOverlapping(overlappingEnablePair);
 		if (mDanmakuView != null) {
@@ -196,10 +179,6 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 				public void prepared() {
 					if (getDanmakuView() != null) {
 						getDanmakuView().start();
-						if (getDanmakuStartSeekPosition() != -1) {
-							resolveDanmakuSeek(DanmakuVideoPlayer.this, getDanmakuStartSeekPosition());
-							setDanmakuStartSeekPosition(-1);
-						}
 						resolveDanmakuShow();
 					}
 				}
@@ -213,7 +192,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 	 */
 	private void resolveDanmakuShow() {
 		post(() -> {
-			if (mDanmakuShow) {
+			if (getToggleDanmaku().isChecked()) {
 				if (!getDanmakuView().isShown())
 					getDanmakuView().show();
 			}
@@ -267,20 +246,8 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 		return mDanmakuView;
 	}
 
-	public long getDanmakuStartSeekPosition() {
-		return mDanmakuStartSeekPosition;
-	}
-
-	public void setDanmakuStartSeekPosition(long danmakuStartSeekPosition) {
-		this.mDanmakuStartSeekPosition = danmakuStartSeekPosition;
-	}
-
-	public void setDanmakuShow(boolean danmakuShow) {
-		mDanmakuShow = danmakuShow;
-	}
-
-	public boolean getDanmakuShow() {
-		return mDanmakuShow;
+	public SwitchCompat getToggleDanmaku() {
+		return mToggleDanmaku;
 	}
 
 	/**
@@ -296,7 +263,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 		danmaku.priority = 8;  // 可能会被各种过滤器过滤并隐藏显示，所以提高等级
 		danmaku.isLive = true;
 		danmaku.setTime(mDanmakuView.getCurrentTime() + 500);
-		danmaku.textSize = 25f * (mParser.getDisplayer().getDensity() - 0.6f);
+		danmaku.textSize = 16f * (mParser.getDisplayer().getDensity() - 0.6f);
 		switch (baseDanmu.getType()) {
 			case 1:
 				danmaku.textColor = Color.WHITE;

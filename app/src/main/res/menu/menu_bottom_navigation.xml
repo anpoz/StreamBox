@@ -2,20 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_panda"
+        android:checkable="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="熊猫TV"/>
+        android:title="熊猫TV"
+        android:visible="false"/>
     <item
         android:id="@+id/menu_douyu"
+        android:checkable="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="斗鱼TV"/>
+        android:title="斗鱼TV"
+        android:visible="false"/>
 
     <item
         android:id="@+id/menu_quanmin"
+        android:checkable="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="全民TV"/>
+        android:title="全民TV"
+        android:visible="false"/>
 
     <item
         android:id="@+id/menu_zhanqi"
+        android:checkable="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="战旗TV"/>
+        android:title="战旗TV"
+        android:visible="false"/>
 </menu>
